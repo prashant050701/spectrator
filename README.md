@@ -8,3 +8,6 @@ Spectrator is a query tool to eliminate the hassle of going through individual c
 
 ## Features
 Yet to be decided/under development.
+
+## Platform
+API support and web application.
