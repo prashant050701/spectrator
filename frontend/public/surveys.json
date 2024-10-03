@@ -1,0 +1,31 @@
+{
+  "Gaia_RVS": {
+    "range": [846, 870],
+    "units": "nm",
+    "source": "Gaia DR3 RVS",
+    "columns": {
+      "wavelength": "wavelength",
+      "flux": "flux",
+      "flux_error": "flux_error"
+    }
+  },
+  "LAMOST": {
+    "range": [3690, 9100],
+    "units": "Å",
+    "source": "LAMOST DR7",
+    "columns": {
+      "wavelength": "Wavelength",
+      "flux": "Flux",
+      "flux_error": "FluxSmooth7"
+    }
+  },
+  "GALAH": {
+    "range": [4710, 7890],
+    "units": "Å",
+    "source": "GALAH DR4",
+    "columns": {
+      "wavelength": "Wavelength",
+      "flux": "Flux"
+    }
+  }
+}
