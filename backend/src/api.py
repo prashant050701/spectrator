@@ -13,13 +13,11 @@ def is_gaia_id(identifier):
     return identifier.startswith("Gaia DR2") or identifier.startswith("Gaia DR3")
 
 def extract_filter_name(file_name):
-    # Extract filter name from the file name
-    # For example, '170713005601315_B.csv' -> 'B'
     name_parts = os.path.splitext(file_name)[0].split('_')
     if len(name_parts) > 1:
-        return name_parts[-1]  # The filter name is the last part after '_'
+        return name_parts[-1]
     else:
-        return None  # No filter name
+        return None
 
 @app.route('/get_spectrum', methods=['POST'])
 def get_spectrum():
@@ -29,12 +27,17 @@ def get_spectrum():
 
     if is_gaia_id(identifier):
         gaia_id = identifier.split()[-1]
+        object_info = crossmatch.fetch_object_info(identifier)
+        ra = object_info['ra'] if object_info else None
+        dec = object_info['dec'] if object_info else None
     else:
         object_info = crossmatch.fetch_object_info(identifier)
         gaia_id = object_info['gaia_id'] if object_info and 'gaia_id' in object_info else None
+        ra = object_info['ra'] if object_info else None
+        dec = object_info['dec'] if object_info else None
 
-    if gaia_id:
-        results = fetch_data.download_spectrum(gaia_id)
+    if gaia_id and ra is not None and dec is not None:
+        results = fetch_data.download_spectrum(gaia_id, ra, dec)
         if results:
             response = {"spectra": []}
             for source_type, file_paths in results.items():
@@ -51,7 +54,7 @@ def get_spectrum():
         else:
             return jsonify({"error": "Spectrum not found in any source", "source_type": "None"}), 404
     else:
-        return jsonify({"error": "Object ID not found in any source", "source_type": "None"}), 404
+        return jsonify({"error": "Object ID not found or missing RA/Dec", "source_type": "None"}), 404
 
 @app.route('/files/<filename>')
 def serve_file(filename):
