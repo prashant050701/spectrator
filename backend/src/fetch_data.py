@@ -2,14 +2,18 @@ import os
 import requests
 from astroquery.gaia import Gaia
 import galah_processing
+import rave_processing
 
-def download_spectrum(source_id):
+RAVE_TOKEN = '0f111fec44b97d3dbe6585fe2c43a3249530c509'
+
+def download_spectrum(source_id, ra, dec):
     output_dir = 'spectra_csv'
     os.makedirs(output_dir, exist_ok=True)
 
     gaia_file_path, gaia_source_type = download_spectrum_from_gaia(source_id, output_dir)
     lamost_file_path, lamost_source_type = download_spectrum_from_lamost(source_id)
     galah_file_paths = galah_processing.download_and_process_galah(source_id)
+    rave_file_paths = rave_processing.download_spectra_from_rave(ra, dec, RAVE_TOKEN, output_dir)
 
     results = {}
     if gaia_file_path:
@@ -18,6 +22,8 @@ def download_spectrum(source_id):
         results[lamost_source_type] = [lamost_file_path]
     if galah_file_paths:
         results["GALAH"] = galah_file_paths
+    if rave_file_paths:
+        results["RAVE"] = rave_file_paths
 
     return results
 
