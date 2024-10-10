@@ -4,7 +4,7 @@ from astroquery.gaia import Gaia
 import galah_processing
 import rave_processing
 
-RAVE_TOKEN = '0f111fec44b97d3dbe6585fe2c43a3249530c509'
+RAVE_TOKEN = '' #have it locally. Didn't put it here.
 
 def download_spectrum(source_id, ra, dec):
     output_dir = 'spectra_csv'
