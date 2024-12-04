@@ -27,5 +27,15 @@
       "wavelength": "Wavelength",
       "flux": "Flux"
     }
+  },
+  "RAVE": {
+    "range": [8418, 9010],
+    "units": "Angstrom",
+    "source": "RAVE DR6",
+    "columns": {
+      "wavelength": "wavelength",
+      "flux": "flux",
+      "flux_error": "error"
+    }
   }
 }
